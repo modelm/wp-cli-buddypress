@@ -28,6 +28,7 @@ WP_CLI::add_hook( 'before_wp_load', function() {
 	require_once( __DIR__ . '/components/message.php' );
 	require_once( __DIR__ . '/components/notification.php' );
 	require_once( __DIR__ . '/components/email.php' );
+	require_once( __DIR__ . '/components/scaffold.php' );
 
 	WP_CLI::add_command( 'bp', __NAMESPACE__ . '\\Command\\Buddypress', array(
 		'before_invoke' => function() {
@@ -219,6 +220,14 @@ WP_CLI::add_hook( 'before_wp_load', function() {
 
 			if ( ! bp_is_active( 'messages' ) ) {
 				WP_CLI::error( 'The Message component is not active.' );
+			}
+		},
+	) );
+
+	WP_CLI::add_command( 'bp scaffold', __NAMESPACE__ . '\\Command\\Scaffold', array(
+		'before_invoke' => function() {
+			if ( ! class_exists( 'Buddypress' ) ) {
+				WP_CLI::error( 'The BuddyPress plugin is not active.' );
 			}
 		},
 	) );
